@@ -1,0 +1,13 @@
+# BLE 통신용 라이브러리
+bleak>=0.21.0
+
+# GUI
+PyQt5>=5.15
+qasync>=0.23.0
+
+# 과학 연산 (데이터 처리/시각화에 사용 가능)
+numpy>=1.20
+
+# 시각화 또는 커스텀 처리 로직이 필요하다면 matplotlib 또는 scipy도 추가 가능
+# matplotlib>=3.5
+# scipy>=1.7
