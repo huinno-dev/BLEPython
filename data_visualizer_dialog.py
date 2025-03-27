@@ -31,24 +31,34 @@ class DataVisualizerDialog(QDialog):
         self.max_samples = self.sps * self.max_seconds
 
         self.data_buffer = []
-
+        
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_chart)
+        self.timer.setInterval(int(1000 / self.sps))
+        self.is_receiving = False
+        self.batch_size = max(1, self.sps // 20)  # 50Hz로 약 5포인트씩 보여주기
+        
     def append_data(self, parsed):
-        needs_update = False
+        if not self.is_receiving:
+            self.timer.start()
+            self.is_receiving = True
+            
         for key in sorted(parsed.keys()):
             value = parsed[key]["value"]
             self.data_buffer.append(QPointF(self.sample_index/self.sps, value))
             self.sample_index += 1
-            needs_update = True
 
             if self.sample_index >= self.max_samples:
                 self.series.clear()
                 self.data_buffer.clear()
                 self.sample_index = 0
 
-        if needs_update:
-            self.update_chart()
-
     def update_chart(self):
-        for point in self.data_buffer:
+        if not self.data_buffer:
+            self.timer.stop()
+            self.is_receiving = False
+            return
+
+        for _ in range(min(len(self.data_buffer), self.batch_size)):
+            point = self.data_buffer.pop(0)
             self.series.append(point)
-        self.data_buffer.clear()
