@@ -19,11 +19,16 @@ BLE 기기와 연결하여 명령어를 전송하고, Notification 및 Indicatio
 
 ```text
 .
-├── main.py                   # PyQt GUI 실행 및 BLEManager 연동
-├── ble_manager.py            # BLE 연결, 명령 송신, 알림 수신 핸들링
-├── data_processor.py         # 수신 데이터 가공 (FFT, 필터 등 적용 가능)
 ├── SignalParser              # 신호 Parser 
     ├── BaseSignalParser.py
     ├── Patch2Parser.py
     ├── PatchMParser.py
+├── device_profiles           # 디바이스 정의 - indi, noti
+    ├── __init__.py
+    ├── base_profile.py
+    ├── device_patch2.py
+    ├── device_patchM.py
+├── main.py                   # PyQt GUI 실행 및 BLEManager 연동
+├── ble_manager.py            # BLE 연결, 명령 송신, 알림 수신 핸들링
+├── data_processor.py         # 수신 데이터 가공 (FFT, 필터 등 적용 가능)
 ├── data_visualizer_dialog.py # PyQt 실시간 시각화 다이얼로그
